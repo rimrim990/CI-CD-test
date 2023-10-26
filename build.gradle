@@ -19,9 +19,9 @@ jacoco {
 
 jacocoTestReport {
 	reports {
-		html.enabled true
-		xml.enabled true
-		csv.enabled false
+		xml.required = true
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
 	}
 
 	finalizedBy 'jacocoTestCoverageVerification'
