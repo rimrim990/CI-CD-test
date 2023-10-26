@@ -6,15 +6,57 @@ plugins {
 	id 'jacoco'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+test {
+	jacoco {
+	}
+
 	finalizedBy 'jacocoTestReport'
+}
+
+jacoco {
+	toolVersion = '0.8.11'
 }
 
 jacocoTestReport {
 	reports {
 		html.enabled true
 		xml.enabled true
+		csv.enabled false
+	}
+
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true // 이 rule을 적용할 것이다.
+			element = 'CLASS' // class 단위로
+
+			// 브랜치 커버리지 최소 50%
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+				minimum = 0.50
+			}
+
+			// 라인 커버리지 최소한 80%
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.80
+			}
+
+			// 빈 줄을 제외한 코드의 라인수 최대 300라인
+			limit {
+				counter = 'LINE'
+				value = 'TOTALCOUNT'
+				maximum = 300
+			}
+
+			// 커버리지 체크를 제외할 클래스들
+			excludes = []
+		}
 	}
 }
 
