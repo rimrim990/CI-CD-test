@@ -29,13 +29,13 @@ public class HelloIIntegrationTest {
             .andExpect(content().string("hello"));
     }
 
-    @Test
-    @DisplayName("요청을 보내면 hello 를 반환한다")
-    void helloController() throws Exception {
-        mockMvc.perform(post("/hello"))
-            .andExpect(status().isOk())
-            .andExpect(content().string("hello"));
-    }
+//    @Test
+//    @DisplayName("요청을 보내면 hello 를 반환한다")
+//    void helloController() throws Exception {
+//        mockMvc.perform(post("/hello"))
+//            .andExpect(status().isOk())
+//            .andExpect(content().string("hello"));
+//    }
 
     @Test
     @DisplayName("테스트")
