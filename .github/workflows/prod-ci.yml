@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: report.xml
-          path: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
+          path: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Add coverage to PR
         id: jacoco
