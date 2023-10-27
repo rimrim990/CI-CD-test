@@ -50,6 +50,12 @@ jobs:
         with:
           files: build/test-results/**/*.xml
 
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: report.xml
+          path: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
