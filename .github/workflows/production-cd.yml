@@ -1,7 +1,7 @@
 name: Production CD
 
 on:
-  workflow-run:
+  workflow_run:
     workflows: ["Production CI"]
     types:
       - completed
