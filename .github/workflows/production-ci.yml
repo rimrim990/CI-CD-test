@@ -45,6 +45,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build jacocoTestReport sonar --info
 
+      - name: Checking your input
+        run: |
+          echo "github.event.pull_request.merged           : $MERGED_RAW"
+          echo "github.event.pull_request.merged == 'true' : $MERGED_TRUE_STR"
+          echo "github.event.pull_request.merged  == true  : $MERGED_TRUE_BOOL"
+
+        env:
+          MERGED_RAW: ${{ github.event.pull_request.merged }}
+          MERGED_TRUE_STR: ${{ github.event.pull_request.merged == 'true' }}
+          MERGED_TRUE_BOOL: ${{ github.event.pull_request.merged == true }}
+
       - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
@@ -63,10 +74,9 @@ jobs:
             build/
 
   docker:
+    if: github.event.pull_request.merged == true
     needs: test
     runs-on: ubuntu-latest
-
-    if: github.event.pull_request.merged == true
 
     steps:
       - name: Download Docker result
