@@ -42,10 +42,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build jacocoTestReport sonar --info
+        run: ./gradlew test sonar --info
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
           files: build/test-results/**/*.xml
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: report.xml
+          path: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"

@@ -19,8 +19,25 @@ jacocoTestReport {
 	reports {
 		xml.required = true
 		csv.required = false
-		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+		html.required = true
 	}
+
+	def excludes = [
+			'**/*Test*.*',
+			'**/actions/*.*',
+			'**/core/*.*',
+			'**/markers/*.*',
+			'**/services/**/*.*',
+			'**/toolwindow/*.*',
+			'**/utils/*.*'
+	]
+
+	def javaClasses = fileTree(dir: "${buildDir}/classes/java/main", excludes: excludes)
+	classDirectories.from = files([javaClasses])
+
+	sourceDirectories.from = files([
+			"$project.projectDir/src/main/java",
+	])
 
 	finalizedBy 'jacocoTestCoverageVerification'
 }

@@ -2,6 +2,7 @@ package com.example.cicdtest.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +25,14 @@ public class HelloIIntegrationTest {
     @DisplayName("요청을 보내면 hello 를 반환한다")
     void returnHello() throws Exception {
         mockMvc.perform(get("/hello"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("hello"));
+    }
+
+    @Test
+    @DisplayName("요청을 보내면 hello 를 반환한다")
+    void helloController() throws Exception {
+        mockMvc.perform(post("/hello"))
             .andExpect(status().isOk())
             .andExpect(content().string("hello"));
     }
