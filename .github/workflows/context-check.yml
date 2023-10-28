@@ -11,4 +11,4 @@ jobs:
 
     steps:
       - run: |
-          echo "${{ fromJson(github.event) }}"
+          echo "${{ fromJson(github) }}"
