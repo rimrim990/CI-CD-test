@@ -1,4 +1,4 @@
-name: Production CI
+name: Production CI 테스트
 
 on:
   push:
@@ -12,17 +12,18 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -40,21 +41,9 @@ jobs:
 
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew test sonar --info
-
-      - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: always()
-        with:
-          files: build/test-results/**/*.xml
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: report.xml
-          path: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Add coverage to PR
         id: jacoco
@@ -64,8 +53,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
-
-      - name: Get the Coverage info
-        run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
