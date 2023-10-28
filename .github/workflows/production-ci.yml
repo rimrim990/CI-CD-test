@@ -53,11 +53,9 @@ jobs:
           min-coverage-overall: 40
           min-coverage-changed-files: 60
 
-      - name: Upload Docker requirements
+      - name: Upload build results
         uses: actions/upload-artifact@v3
         if: ${{ github.event_name }} == 'push'
         with:
-          name: docker requirements
-          path: |
-            .Dockerfile
-            build/
+          name: build results
+          path: build/
