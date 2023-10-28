@@ -53,9 +53,13 @@ jobs:
           min-coverage-overall: 40
           min-coverage-changed-files: 60
 
+      - name: echo test
+        run: | 
+          echo "${{ toJson(github.event.push) }}"
+
       - name: Upload Docker requirements
         uses: actions/upload-artifact@v3
-        if: ${{ github.event.pull_request.merged }}
+        if: ${{ github.event_name }} == 'push'
         with:
           name: docker requirements
           path: |
