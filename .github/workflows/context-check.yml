@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: ["check"]
 
-  push:
-    branches: ["check"]
+#  push:
+#    branches: ["check"]
 
 jobs:
   check:
@@ -14,4 +14,4 @@ jobs:
 
     steps:
       - run: |
-          echo "${{ toJson(github.event) }}"
+          echo "${{ toJson(github.event.pull_request) }}"
