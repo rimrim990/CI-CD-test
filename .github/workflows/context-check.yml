@@ -1,0 +1,13 @@
+name: Github Actions Context Check
+
+on:
+  push:
+    branches: ["check"]
+
+jobs:
+  check:
+    name: Check Github Context
+
+    steps:
+      - run: |
+          echo "${{ fromJson(github.event) }}"
