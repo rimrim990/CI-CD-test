@@ -45,6 +45,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build jacocoTestReport sonar --info
 
+      - name: echo
+        run: |
+          echo ${{ github.ref_name }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event }}
+
       - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
@@ -55,7 +61,7 @@ jobs:
 
       - name: Upload Docker requirements
         uses: actions/upload-artifact@v3
-        if: ${{ github.event.pull_request.merged }}
+        if: ${{ github.event_name }} == 'push' && ${{ github.ref_name }} == 'main'
         with:
           name: docker requirements
           path: |
