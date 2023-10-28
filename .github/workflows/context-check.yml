@@ -1,6 +1,9 @@
 name: Github Actions Context Check
 
 on:
+  pull_request:
+    branches: ["check"]
+
   push:
     branches: ["check"]
 
@@ -11,4 +14,4 @@ jobs:
 
     steps:
       - run: |
-          echo "${{ toJson(github) }}"
+          echo "${{ toJson(github.event) }}"
