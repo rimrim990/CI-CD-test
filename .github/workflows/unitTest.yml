@@ -44,12 +44,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew test sonar --info
 
-      - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: always()
-        with:
-          files: build/test-results/**/*.xml
-
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
