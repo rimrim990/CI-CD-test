@@ -1,8 +1,8 @@
-name: Production CD
+name: Deploy to remote server
 
 on:
   workflow_run:
-    workflows: ["Production CI"]
+    workflows: ["Merge request into main branch"]
     branches:
       - main
     types:
@@ -18,7 +18,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           name: build results
-          path: ./build
+          path: ./build/libs
           run_id: ${{ github.event.workflow_run.id }}
 
       - name: Checkout repository
