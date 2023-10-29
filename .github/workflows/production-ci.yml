@@ -52,6 +52,12 @@ jobs:
           name: build results
           path: build/
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -76,6 +82,12 @@ jobs:
         with:
           name: build results
           path: build/
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Checkout repository
         uses: actions/checkout@v4
